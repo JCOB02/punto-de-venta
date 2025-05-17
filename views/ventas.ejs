@@ -1,0 +1,541 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ventas | Venta Maestra</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <div class="main-wrapper">
+        <!-- Include Sidebar -->
+        <div id="sidebar-container">
+            <%- include("partials/sidebar.ejs") %>
+        </div>
+        
+        <div class="main-content" id="main-content">
+            <!-- Include Header -->
+            <div id="header-container">
+                <%- include("partials/header.ejs") %>
+            </div>
+            
+            <div class="container-fluid">
+                <div class="row mb-4">
+                    <div class="col-12 d-flex justify-content-between align-items-center">
+                        <div>
+                            <h1 class="page-title">Ventas</h1>
+                            <p class="text-muted">Gestiona todas tus ventas</p>
+                        </div>
+                        <div>
+                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newSaleModal">
+                                <i class="fas fa-plus me-2"></i>Nueva Venta
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-4 mb-3 mb-md-0">
+                                        <div class="input-group">
+                                            <span class="input-group-text"><i class="fas fa-search"></i></span>
+                                            <input type="text" class="form-control" id="searchSale" placeholder="Buscar ventas...">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8 d-flex gap-2 justify-content-md-end">
+                                        <select class="form-select w-auto" id="filterStatus">
+                                            <option value="">Todos los Estados</option>
+                                            <option value="Completado">Completado</option>
+                                            <option value="Pendiente">Pendiente</option>
+                                            <option value="Cancelado">Cancelado</option>
+                                        </select>
+                                        
+                                        <select class="form-select w-auto" id="filterSeller">
+                                            <option value="">Todos los Vendedores</option>
+                                            <option value="Ana Martínez">Ana Martínez</option>
+                                            <option value="Carlos López">Carlos López</option>
+                                            <option value="María Gómez">María Gómez</option>
+                                        </select>
+                                        
+                                        <div class="input-group" style="max-width: 200px;">
+                                            <span class="input-group-text"><i class="fas fa-calendar"></i></span>
+                                            <input type="date" class="form-control" id="filterDate">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="table-card">
+                            <div class="table-card-header">
+                                <h5 class="mb-0">Lista de Ventas</h5>
+                                <div>
+                                    <button class="btn btn-sm btn-outline-secondary me-2">
+                                        <i class="fas fa-file-export me-1"></i>Exportar
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-primary">
+                                        <i class="fas fa-print me-1"></i>Imprimir
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="table-card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-hover data-table mb-0">
+                                        <thead>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Fecha</th>
+                                                <th>Cliente</th>
+                                                <th>Vendedor</th>
+                                                <th>Productos</th>
+                                                <th>Total</th>
+                                                <th>Estado</th>
+                                                <th>Acciones</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody> 
+                                            <tr>
+                                                <td>#VM-2023</td>
+                                                <td>05/04/2024</td>
+                                                <td>Juan Pérez</td>
+                                                <td>Ana Martínez</td>
+                                                <td>2 productos</td>
+                                                <td>$45.99</td>
+                                                <td><span class="badge bg-success">Completado</span></td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-info me-1" data-bs-toggle="modal" data-bs-target="#viewSaleModal">
+                                                        <i class="fas fa-eye"></i>
+                                                    </button>
+                                                    <button class="btn btn-sm btn-secondary" onclick="window.open('factura.html', '_blank')">
+                                                        <i class="fas fa-file-invoice"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>#VM-2022</td>
+                                                <td>05/04/2024</td>
+                                                <td>Laura Sánchez</td>
+                                                <td>Carlos López</td>
+                                                <td>1 producto</td>
+                                                <td>$89.50</td>
+                                                <td><span class="badge bg-success">Completado</span></td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-info me-1" data-bs-toggle="modal" data-bs-target="#viewSaleModal">
+                                                        <i class="fas fa-eye"></i>
+                                                    </button>
+                                                    <button class="btn btn-sm btn-secondary" onclick="window.open('factura.html', '_blank')">
+                                                        <i class="fas fa-file-invoice"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>#VM-2021</td>
+                                                <td>04/04/2024</td>
+                                                <td>Miguel Rodríguez</td>
+                                                <td>Ana Martínez</td>
+                                                <td>3 productos</td>
+                                                <td>$125.00</td>
+                                                <td><span class="badge bg-warning">Pendiente</span></td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-info me-1" data-bs-toggle="modal" data-bs-target="#viewSaleModal">
+                                                        <i class="fas fa-eye"></i>
+                                                    </button>
+                                                    <button class="btn btn-sm btn-secondary" onclick="window.open('factura.html', '_blank')">
+                                                        <i class="fas fa-file-invoice"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>#VM-2020</td>
+                                                <td>04/04/2024</td>
+                                                <td>Sofia Torres</td>
+                                                <td>María Gómez</td>
+                                                <td>1 producto</td>
+                                                <td>$199.99</td>
+                                                <td><span class="badge bg-success">Completado</span></td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-info me-1" data-bs-toggle="modal" data-bs-target="#viewSaleModal">
+                                                        <i class="fas fa-eye"></i>
+                                                    </button>
+                                                    <button class="btn btn-sm btn-secondary" onclick="window.open('factura.html', '_blank')">
+                                                        <i class="fas fa-file-invoice"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>#VM-2019</td>
+                                                <td>03/04/2024</td>
+                                                <td>Pedro Jiménez</td>
+                                                <td>Carlos López</td>
+                                                <td>2 productos</td>
+                                                <td>$78.50</td>
+                                                <td><span class="badge bg-danger">Cancelado</span></td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-info me-1" data-bs-toggle="modal" data-bs-target="#viewSaleModal">
+                                                        <i class="fas fa-eye"></i>
+                                                    </button>
+                                                    <button class="btn btn-sm btn-secondary" disabled>
+                                                        <i class="fas fa-file-invoice"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <nav aria-label="Page navigation example" class="mt-4">
+                            <ul class="pagination justify-content-center">
+                                <li class="page-item disabled">
+                                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Anterior</a>
+                                </li>
+                                <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                <li class="page-item">
+                                    <a class="page-link" href="#">Siguiente</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Include Footer -->
+            <div id="footer-container">
+                <%- include("partials/footer.ejs") %>
+            </div>
+        </div>
+    </div>
+    
+    <!-- New Sale Modal -->
+    <div class="modal fade" id="newSaleModal" tabindex="-1" aria-labelledby="newSaleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="newSaleModalLabel">Registrar Nueva Venta</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="newSaleForm">
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="saleDate" class="form-label">Fecha</label>
+                                    <input type="date" class="form-control" id="saleDate" value="2024-04-05" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="customerName" class="form-label">Cliente</label>
+                                    <input type="text" class="form-control" id="customerName" placeholder="Nombre del cliente" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="saleSeller" class="form-label">Vendedor</label>
+                                    <select class="form-select" id="saleSeller" required>
+                                        <option value="" selected disabled>Seleccionar vendedor</option>
+                                        <option value="1">Ana Martínez</option>
+                                        <option value="2">Carlos López</option>
+                                        <option value="3">María Gómez</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="saleNotes" class="form-label">Notas</label>
+                                    <textarea class="form-control" id="saleNotes" rows="1" placeholder="Notas adicionales (opcional)"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <h5 class="mb-3">Productos</h5>
+                        
+                        <div class="table-responsive mb-3">
+                            <table class="table table-bordered" id="saleProductsTable">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th style="width: 40%;">Producto</th>
+                                        <th>Precio</th>
+                                        <th>Cantidad</th>
+                                        <th>Total</th>
+                                        <th style="width: 5%;"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr id="productRow1">
+                                        <td>
+                                            <select class="form-select product-select" required>
+                                                <option value="" selected disabled>Seleccionar producto</option>
+                                                <option value="1" data-price="25.99">Camiseta Básica - Negro (M)</option>
+                                                <option value="2" data-price="59.99">Pantalón Vaquero - Azul (32)</option>
+                                                <option value="3" data-price="89.99">Vestido Elegante - Rojo (S)</option>
+                                                <option value="4" data-price="119.99">Zapatos Deportivos - Blanco (42)</option>
+                                                <option value="5" data-price="149.99">Chaqueta Invierno - Verde (L)</option>
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <span class="input-group-text">$</span>
+                                                <input type="text" class="form-control product-price" value="0.00" readonly>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <input type="number" class="form-control product-qty" min="1" value="1" required>
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <span class="input-group-text">$</span>
+                                                <input type="text" class="form-control product-total" value="0.00" readonly>
+                                            </div>
+                                        </td>
+                                        <td class="text-center">
+                                            <button type="button" class="btn btn-sm btn-danger remove-product">
+                                                <i class="fas fa-times"></i>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <button type="button" class="btn btn-outline-primary" id="addProductRow">
+                                <i class="fas fa-plus me-2"></i>Agregar Producto
+                            </button>
+                        </div>
+                        
+                        <div class="row justify-content-end">
+                            <div class="col-md-5">
+                                <div class="card bg-light">
+                                    <div class="card-body">
+                                        <div class="d-flex justify-content-between mb-2">
+                                            <span>Subtotal:</span>
+                                            <span id="subtotalAmount">$0.00</span>
+                                        </div>
+                                        <div class="d-flex justify-content-between mb-2">
+                                            <span>IVA (16%):</span>
+                                            <span id="taxAmount">$0.00</span>
+                                        </div>
+                                        <hr>
+                                        <div class="d-flex justify-content-between fw-bold">
+                                            <span>Total:</span>
+                                            <span id="totalAmount" class="fs-5">$0.00</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary">Confirmar Venta</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- View Sale Modal -->
+    <div class="modal fade" id="viewSaleModal" tabindex="-1" aria-labelledby="viewSaleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="viewSaleModalLabel">Detalles de Venta #VM-2023</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <p><strong>Fecha:</strong> 05/04/2024</p>
+                            <p><strong>Cliente:</strong> Juan Pérez</p>
+                            <p><strong>Estado:</strong> <span class="badge bg-success">Completado</span></p>
+                        </div>
+                        <div class="col-md-6">
+                            <p><strong>Vendedor:</strong> Ana Martínez</p>
+                            <p><strong>Método de pago:</strong> Efectivo</p>
+                            <p><strong>Notas:</strong> Cliente frecuente, aplica descuento.</p>
+                        </div>
+                    </div>
+                    
+                    <h6 class="mb-3">Productos</h6>
+                    <div class="table-responsive mb-4">
+                        <table class="table table-bordered">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Producto</th>
+                                    <th>Precio</th>
+                                    <th>Cantidad</th>
+                                    <th class="text-end">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Camiseta Básica - Negro (M)</td>
+                                    <td>$25.99</td>
+                                    <td>1</td>
+                                    <td class="text-end">$25.99</td>
+                                </tr>
+                                <tr>
+                                    <td>Zapatos Deportivos - Blanco (42)</td>
+                                    <td>$19.99</td>
+                                    <td>1</td>
+                                    <td class="text-end">$19.99</td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="3" class="text-end"><strong>Subtotal:</strong></td>
+                                    <td class="text-end">$45.98</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3" class="text-end"><strong>IVA (16%):</strong></td>
+                                    <td class="text-end">$0.01</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3" class="text-end"><strong>Total:</strong></td>
+                                    <td class="text-end fw-bold">$45.99</td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                    
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            <strong>Historial:</strong>
+                            <ul class="list-unstyled small mt-2">
+                                <li><i class="fas fa-check-circle text-success me-1"></i> 05/04/2024 09:15 - Venta registrada</li>
+                                <li><i class="fas fa-check-circle text-success me-1"></i> 05/04/2024 09:15 - Pago recibido</li>
+                                <li><i class="fas fa-check-circle text-success me-1"></i> 05/04/2024 09:20 - Productos entregados</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <div class="qr-code bg-white p-2 border">
+                                <img src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=VM2023" alt="QR Code">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="button" class="btn btn-info" onclick="window.open('factura.html', '_blank')">
+                        <i class="fas fa-file-invoice me-1"></i>Ver Factura
+                    </button>
+                    <button type="button" class="btn btn-primary">
+                        <i class="fas fa-print me-1"></i>Imprimir
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        document.getElementById('pageTitle').innerText = 'Ventas';
+        document.querySelectorAll('.sidebar-item').forEach(item => {
+            if (item.getAttribute('href') === '/ventas') {
+                item.classList.add('active');
+            } else {
+                item.classList.remove('active');
+            }});
+            
+            // New Sale Modal - Product Selection
+            document.addEventListener('change', function(e) {
+                if (e.target && e.target.classList.contains('product-select')) {
+                    const row = e.target.closest('tr');
+                    const priceInput = row.querySelector('.product-price');
+                    const qtyInput = row.querySelector('.product-qty');
+                    const totalInput = row.querySelector('.product-total');
+                    
+                    const selectedOption = e.target.options[e.target.selectedIndex];
+                    const price = selectedOption.getAttribute('data-price') || 0;
+                    
+                    priceInput.value = parseFloat(price).toFixed(2);
+                    updateRowTotal(row);
+                    updateTotals();
+                }
+                
+                if (e.target && e.target.classList.contains('product-qty')) {
+                    const row = e.target.closest('tr');
+                    updateRowTotal(row);
+                    updateTotals();
+                }
+            });
+            
+            // Add product row
+            document.getElementById('addProductRow').addEventListener('click', function() {
+                const tbody = document.querySelector('#saleProductsTable tbody');
+                const rowCount = tbody.querySelectorAll('tr').length + 1;
+                const newRow = document.querySelector('#saleProductsTable tbody tr').cloneNode(true);
+                
+                // Reset values
+                newRow.id = 'productRow' + rowCount;
+                newRow.querySelector('.product-select').value = '';
+                newRow.querySelector('.product-price').value = '0.00';
+                newRow.querySelector('.product-qty').value = '1';
+                newRow.querySelector('.product-total').value = '0.00';
+                
+                tbody.appendChild(newRow);
+                
+                // Set up remove button
+                newRow.querySelector('.remove-product').addEventListener('click', function() {
+                    if (tbody.querySelectorAll('tr').length > 1) {
+                        this.closest('tr').remove();
+                        updateTotals();
+                    }
+                });
+            });
+            
+            // Set up initial remove button
+            document.querySelectorAll('.remove-product').forEach(button => {
+                button.addEventListener('click', function() {
+                    const tbody = document.querySelector('#saleProductsTable tbody');
+                    if (tbody.querySelectorAll('tr').length > 1) {
+                        this.closest('tr').remove();
+                        updateTotals();
+                    }
+                }); 
+            });
+            
+            // Helper functions
+            function updateRowTotal(row) {
+                const price = parseFloat(row.querySelector('.product-price').value) || 0;
+                const qty = parseInt(row.querySelector('.product-qty').value) || 0;
+                const total = price * qty;
+                row.querySelector('.product-total').value = total.toFixed(2);
+            }
+            
+            function updateTotals() {
+                let subtotal = 0;
+                document.querySelectorAll('.product-total').forEach(input => {
+                    subtotal += parseFloat(input.value) || 0;
+                });
+                
+                const tax = subtotal * 0.16;
+                const total = subtotal + tax;
+                
+                document.getElementById('subtotalAmount').textContent = '$' + subtotal.toFixed(2);
+                document.getElementById('taxAmount').textContent = '$' + tax.toFixed(2);
+                document.getElementById('totalAmount').textContent = '$' + total.toFixed(2);
+            }
+    </script>
+</body>
+</html>
